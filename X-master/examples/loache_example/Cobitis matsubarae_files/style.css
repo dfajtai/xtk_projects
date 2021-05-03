@@ -1,0 +1,504 @@
+.homephoto{
+    height:95vh; /*ビューポート*/
+    object-fit: cover;
+    font-family: 'object-fit: cover;'; /*IE対策*/
+  }
+
+.thumbfit{
+  width:100%;
+  height:auto;
+}
+
+.file-thumb-fix{
+    width:240px;
+    height:160px;
+    object-fit: cover;
+    font-family: 'object-fit: cover;'; /*IE対策*/
+}
+.thumb-yoko{
+  width:240px;
+  height:auto;
+}
+.thumb-tate{
+  width:auto;
+  height:240px;
+}
+.thumb-s-yoko{
+  width:auto;
+  height:90px;
+  margin:2px;
+  clear:both;
+}
+.thumb-s-tate{
+  width:auto;
+  height:90px;
+  margin:2px;
+  clear:both;
+}
+.thumb-sm-yoko{
+  width:90px;
+  height:auto;
+  margin:2px;
+  clear:both;
+}
+.thumb-sm-tate{
+  width:auto;
+  height:90px;
+  margin:2px;
+  clear:both;
+}
+.thumb-ss-yoko{
+  width:40px;
+  height:auto;
+  margin:2px;
+  display:inline-block;
+  clear:both;
+}
+.thumb-ss-tate{
+  width:auto;
+  height:40px;
+  margin:2px;
+  display:inline-block;
+  clear:both;
+}
+.thumb-sss-yoko,.thumb-sss-tate{
+  width:auto;
+  height:24px;
+  margin:1px;
+  margin-left:4px;
+  display:inline-block;
+  clear:both;
+}
+
+.homephotos{
+  width:33.333%;
+  height:100px;
+  object-fit:cover;
+  display:inline-block;
+  margin: 0;
+}
+
+
+.icon-custom{
+  width:2rem;
+  height:auto;
+}
+
+textarea{
+  word-break: break-all;
+}
+
+.container-default {
+  margin-top: 2rem;
+}
+
+.mw-80p {
+  max-width:80%;
+}
+.mw-90p {
+  max-width:90%;
+}
+.mw-95p {
+  max-width:95%;
+}
+.mw-100p {
+  max-width:100%;
+}
+.indent2 {
+  padding-left:1em;
+  text-indent:-1em;
+}
+
+/*埋め込み*/
+.embedMov{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+}
+.embedMov iframe{
+  position:absolute;
+  top:0;
+  right:0;
+  width:100%;
+  height:100%;
+}
+
+/*ツールチップ*/
+.tipForImg {
+  position: absolute;
+  z-index: 20;
+  display: none;
+  width: 240px;
+  height: auto;
+}
+
+/*ツールチップtipDND*/
+.tipFordna {
+  position: absolute;
+  z-index: 20;
+  width: 500px;
+  height: auto;
+  background-color: #e8f5e9;
+}
+
+.tipForsampling {
+  position: absolute;
+  z-index: 20;
+  width: 500px;
+  height: auto;
+  background-color: #e8f5e9;
+}
+
+.tipForspecimen {
+  position: absolute;
+  z-index: 20;
+  width: 400px;
+  height: auto;
+  background-color: #e8f5e9;
+}
+
+
+.tipForfile {
+  position: absolute;
+  z-index: 20;
+  width: 60%;
+  /*max-width:1100px;*/
+  height: auto;
+  background-color: #e8f5e9;
+}
+/*
+.tipForfile {
+  position: absolute;
+  z-index: 20;
+  width: auto;
+  height:auto;
+  background-color: #e8f5e9;
+}
+*/
+/*ツールチップ*/
+.tipForBlast {
+  position: absolute;
+  z-index: 20;
+  width: 500px;
+  height: auto;
+  background-color: white;
+}
+
+.tipForHtml {
+  position: absolute;
+  z-index: 200;
+  width: auto;
+  height: auto;
+  background-color: rgb(184, 183, 183);
+  padding:5px;
+}
+
+.mapChip {
+  z-index: 1800;
+  width: 250px;
+  height: 250px;
+  background-color: rgb(184, 183, 183);
+  padding:0px;
+}
+
+.mapChipWrapper {
+  position: absolute;
+  z-index: 1200;
+  width: 250px;
+  height: auto;
+  background-color: rgb(184, 183, 183);
+  padding:0px;
+}
+
+
+/*3DCTの背景*/
+.bg3dct { 
+  background-color:#000;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden !important;  
+}
+
+.smallInput{
+  width:5rem;
+}
+
+.editButton{
+  font-size:60%;
+  color:black;
+  background-color: rgba(13, 230, 238, 0.3);
+  cursor: pointer;
+}
+.editButton2{
+  font-size:60%;
+  color:black;
+  background-color: rgba(54, 241, 7, 0.3);
+  cursor: pointer;
+}
+.editButtonAdd{
+  font-size:60%;
+  color:black;
+  background-color: rgba(19, 42, 250, 0.3);
+  cursor: pointer;
+}
+.editButtonDel{
+  font-size:60%;
+  color:black;
+  background-color: rgba(250, 6, 217, 0.3);
+  cursor: pointer;
+}
+.editButtonConnect{
+  font-size:60%;
+  color:black;
+  background-color: rgba(226, 250, 6, 0.3);
+  cursor: pointer;
+}
+
+.editButtonDisable{
+  font-size:60%;
+  color:black;
+  background-color: rgba(94, 94, 94, 0.3);
+}
+
+.smallSelect{
+  font-size:90%;
+  height:2rem;
+}
+
+#gmap {
+  height:100vh;
+  min-height:300px;
+  max-height:80vh;
+  max-width:100%;
+  z-index:5
+}
+
+/*
+.modalbg{
+  width:100%;
+  height:100vw;
+  position:absolute;
+  left:0;
+  top:0;
+  background-color: rgba(61, 61, 61, 0.3);
+  z-index:10000;
+}
+*/
+
+.place-text{
+  color:lightgray;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+.cursor-grab{
+  cursor: grab;
+}
+
+/*wavesurferスペクトラム */
+#wave-spectrogram{
+  margin: 10px auto;
+  position: relative;
+}
+#wave-spectrogram canvas{
+  left: 0;
+}
+#specLabels{
+  position: absolute!important;
+}
+
+
+/*itemのlist表示のため*/
+.item-s{
+  width: 11rem;
+  word-break: break-all
+}
+.item-m{
+  width: 14rem;
+  word-break: break-word;
+}
+
+.item-gakumei{
+  white-space: normal;/*nowrap*/
+}
+
+.smallTextarea{
+  width:20rem;
+  height:8rem;
+}
+
+/*Tree表示*/
+.tl7{
+  margin-left:0rem;
+  color:#663300;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl7 a{
+  color:#663300;
+}
+.tl6{
+  margin-left:2rem;
+  color:#003366;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl6 a{
+  color:#003366;
+}
+.tl5{
+  margin-left:4rem;
+  color:#663366;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl5 a{
+  color:#663366;
+}
+.tl4{
+  margin-left:6rem;
+  color:#006600;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl4 a{
+  color:#006600;
+}
+.tl3{
+  margin-left:8rem;
+  color:#993300;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl3 a{
+  color:#993300;
+}
+.tl2{
+  margin-left:10rem;
+  color:rgba(182, 11, 224, 0.966);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl2 a{
+  color:rgba(182, 11, 224, 0.966);
+}
+.tl1{
+  margin-left:12rem;
+  color:#3300FF;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+
+
+/*Tree表示*/
+.tl7s{
+  margin-left:0rem;
+  color:#663300;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl7s a{
+  color:#663300;
+}
+.tl6s{
+  margin-left:0.5rem;
+  color:#003366;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl6s a{
+  color:#003366;
+}
+.tl5s{
+  margin-left:1rem;
+  color:#663366;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl5s a{
+  color:#663366;
+}
+.tl4s{
+  margin-left:1.5rem;
+  color:#006600;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl4s a{
+  color:#006600;
+}
+.tl3s{
+  margin-left:2rem;
+  color:#993300;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl3s a{
+  color:#993300;
+}
+.tl2s{
+  margin-left:2.5rem;
+  color:rgba(182, 11, 224, 0.966);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+.tl2s a{
+  color:rgba(182, 11, 224, 0.966);
+}
+.tl1s{
+  margin-left:3rem;
+  color:#3300FF;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+}
+
+.overflow-scroll{
+  overflow:scroll;
+}
+
+.likeButton{
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  margin:2px;
+}
+
+.likeButtoned{
+  width: 1rem;
+  height: 1rem;
+  margin:2px;
+}
+
+.likes{
+  display:inline-block;
+}
+
+
+/*datatable の sorting 矢印*/
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  cursor: pointer;
+  *cursor: hand;
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+table.dataTable thead .sorting {
+  background-image: url("../img_custom/sort/sort_both.png");
+}
+table.dataTable thead .sorting_asc {
+  background-image: url("../img_custom/sort/sort_asc.png");
+}
+table.dataTable thead .sorting_desc {
+  background-image: url("../img_custom/sort/sort_desc.png");
+}
+table.dataTable thead .sorting_asc_disabled {
+  background-image: url("../img_custom/sort/sort_asc_disabled.png");
+}
+table.dataTable thead .sorting_desc_disabled {
+  background-image: url("../img_custom/sort/sort_desc_disabled.png");
+}
