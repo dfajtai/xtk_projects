@@ -1,90 +1,151 @@
 var renderer;
 
 var gui;
-
-var volume;
 var volumegui;
+var current_volume_name = "";
 
-var bone_mesh;
-var bone_mesh_gui;
-var bone_load_flag;
+var vol_dict = {}
 
-var surface_mesh;
-var surface_mesh_gui;
-var surface_load_flag;
-
-var bladder_mesh;
-var bladder_mesh_gui;
-var bladder_load_flag;
+var mesh_dict = {};
 
 
-function add_gui(){
-  dat.GUI.prototype.removeFolder = function(name) {
-    var folder = this.__folders[name];
-    if (!folder) {
-      return;
-    }
-    folder.close();
-    this.__ul.removeChild(folder.domElement.parentNode);
-    delete this.__folders[name];
-    this.onResize();
+dat.GUI.prototype.removeFolder = function (name) {
+  var folder = this.__folders[name];
+  if (!folder) {
+    return;
   }
-  gui = new dat.GUI();
-
+  folder.close();
+  this.__ul.removeChild(folder.domElement.parentNode);
+  delete this.__folders[name];
+  this.onResize();
 }
 
-function add_volume_gui() {
-  gui.removeFolder("Volume");
 
-  volumegui = gui.addFolder('Volume');
+function load_volume(volume_name) {
+  if (!vol_dict.hasOwnProperty(volume_name)) return;
 
-  var vrController = volumegui.add(volume, 'volumeRendering');
+  if (vol_dict.hasOwnProperty(current_volume_name)) {
+    if (vol_dict[current_volume_name].is_loaded) {
+      vol_dict[current_volume_name].volume.visible = false;
+      vol_dict[current_volume_name].volume.volumeRendering = false;
+    }
+  }
+  if (!vol_dict[volume_name].is_loaded) {
+    vol_dict[volume_name].volume = new X.volume();
+    vol_dict[volume_name].volume.file = vol_dict[volume_name].path;
+    vol_dict[volume_name].volume.volumeRendering = true;
+    vol_dict[volume_name].volume.opacity = 0.05;
+    vol_dict[volume_name].volume.visible = true;
+
+    vol_dict[volume_name].is_loaded = true;
 
 
-  var minColorController = volumegui.addColor(volume, 'minColor');
-  var maxColorController = volumegui.addColor(volume, 'maxColor');
+    renderer.add(vol_dict[volume_name].volume);
+    renderer.onShowtime = function () {
+      update_gui(volume_name, current_volume_name);
+      current_volume_name = volume_name;
+    };
+  }
+  else {
+    vol_dict[volume_name].volume.visible = true;
+    vol_dict[volume_name].volume.volumeRendering = true;
+    update_gui(volume_name, current_volume_name);
+    current_volume_name = volume_name;
+  }
+}
+
+function add_volume_gui(vol_name) {
+  window_low = (vol_dict[vol_name].hasOwnProperty("window_low")) ? vol_dict[vol_name].window_low : vol_dict[vol_name].volume.min;
+  window_high = (vol_dict[vol_name].hasOwnProperty("window_high")) ? vol_dict[vol_name].window_high : vol_dict[vol_name].volume.max;
+
+  lowerThreshold = (vol_dict[vol_name].hasOwnProperty("low_thr")) ? vol_dict[vol_name].low_thr : vol_dict[vol_name].volume.min;
+  upperThreshold = (vol_dict[vol_name].hasOwnProperty("high_thr")) ? vol_dict[vol_name].high_thr : vol_dict[vol_name].volume.max;
+
+  volumegui = gui.addFolder(vol_name + ' volume');
+  var vrController = volumegui.add(vol_dict[vol_name].volume, 'volumeRendering');
+
+  var minColorController = volumegui.addColor(vol_dict[vol_name].volume, 'minColor');
+  var maxColorController = volumegui.addColor(vol_dict[vol_name].volume, 'maxColor');
+
+  var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0.01, 0.1).listen();
+
+  vol_dict[vol_name].volume.lowerThreshold = lowerThreshold;
+  vol_dict[vol_name].volume.upperThreshold = upperThreshold;
+
+  var lowerThresholdController = volumegui.add(vol_dict[vol_name].volume, 'lowerThreshold',
+    vol_dict[vol_name].volume.min, vol_dict[vol_name].volume.max);
+
+  var upperThresholdController = volumegui.add(vol_dict[vol_name].volume, 'upperThreshold',
+    vol_dict[vol_name].volume.min, vol_dict[vol_name].volume.max);
+
+  vol_dict[vol_name].volume.windowLow = window_low;
+  vol_dict[vol_name].volume.windowHigh = window_high;
+
+  var lowerWindowController = volumegui.add(vol_dict[vol_name].volume, 'windowLow', vol_dict[vol_name].volume.min,
+  vol_dict[vol_name].volume.max);
+    var upperWindowController = volumegui.add(vol_dict[vol_name].volume, 'windowHigh', vol_dict[vol_name].volume.min,
+    vol_dict[vol_name].volume.max);
 
 
-  // var opacityController = volumegui.add(volume, 'opacity', 0, 1).listen();
-
-  var lowerThresholdController = volumegui.add(volume, 'lowerThreshold',
-    volume.min, volume.max);
-  var upperThresholdController = volumegui.add(volume, 'upperThreshold',
-    volume.min, volume.max);
-
-  // var lowerWindowController = volumegui.add(volume, 'windowLow', volume.min,  volume.max);
-  // var upperWindowController = volumegui.add(volume, 'windowHigh', volume.min,  volume.max);
+  var sliceXController = volumegui.add(vol_dict[vol_name].volume, 'indexX', 0,
+    vol_dict[vol_name].volume.range[0] - 1);
+  var sliceYController = volumegui.add(vol_dict[vol_name].volume, 'indexY', 0,
+    vol_dict[vol_name].volume.range[1] - 1);
+  var sliceZController = volumegui.add(vol_dict[vol_name].volume, 'indexZ', 0,
+    vol_dict[vol_name].volume.range[2] - 1);
 
   volumegui.open();
 
 }
 
-function add_mesh_gui(mesh,mesh_gui,load_flag,name){
-      mesh_gui = gui.addFolder(name + ' mesh');
-      var meshVisibleController = mesh_gui.add(mesh, 'visible');
-      // var meshColorController = mesh_gui.addColor(mesh, 'color');
+function add_meshes_to_scene() {
+  for (var mesh_name in mesh_dict) {
+    if (mesh_dict.hasOwnProperty(mesh_name)) {
+      mesh_dict[mesh_name].mesh = new X.mesh();
+      mesh_dict[mesh_name].mesh.file = mesh_dict[mesh_name].path;
+      mesh_dict[mesh_name].mesh.color = mesh_dict[mesh_name].color;
+      mesh_dict[mesh_name].mesh.opacity = 1;
+      mesh_dict[mesh_name].mesh.visible = false;
+      mesh_dict[mesh_name].is_loaded = false;
+    }
+  }
+}
 
-      mesh_gui.open();
+function add_mesh_gui(mesh_name) {
+  if (!mesh_dict.hasOwnProperty(mesh_name)) return;
+  gui.removeFolder(mesh_name + ' mesh');
 
-      load_flag = false;
-      // callbacks
-      meshVisibleController.onChange(function (value) {
-  
-        if (!load_flag) {
-  
-          renderer.add(mesh);
-  
+  mesh_dict[mesh_name].gui = gui.addFolder(mesh_name + ' mesh');
+  var meshVisibleController = mesh_dict[mesh_name].gui.add(mesh_dict[mesh_name].mesh, 'visible');
 
-          renderer.onShowtime = function () {
-          };
+  mesh_dict[mesh_name].gui.open();
 
-          load_flag = true;
-  
-        }
-  
-      });
+  // callbacks
+  meshVisibleController.onChange(function (value) {
+
+    if (!mesh_dict[mesh_name].is_loaded) {
+      renderer.add(mesh_dict[mesh_name].mesh);
+      renderer.onShowtime = function () {
+
+      };
+      mesh_dict[mesh_name].is_loaded = true;
+    }
+  });
+}
+
+function update_gui(target_vol_name, old_vol_name) {
+  if (!vol_dict.hasOwnProperty(target_vol_name)) return;
+
+  gui.removeFolder(old_vol_name + ' volume');
+
+  add_volume_gui(target_vol_name);
+
+  for (var mesh_name in mesh_dict) {
+    add_mesh_gui(mesh_name);
+  }
 
 }
+
 
 window.onload = function () {
 
@@ -92,48 +153,27 @@ window.onload = function () {
   renderer = new X.renderer3D();
   renderer.init();
 
-  volume = new X.volume();
-  volume.file = '../img/sample.nii.gz';
-  volume.volumeRendering = true;
-  volume.opacity = 0.05;
-  volume.lowerThreshold = -600;
-  renderer.add(volume);
+  ct_params = { path: '../img/ct.nii.gz', volume: null, is_loaded: false, low_thr: -600, window_low: -300, window_high: 600 };
+  t1_params = { path: '../img/mr-t1_n4corr.nii.gz', volume: null, is_loaded: false, low_thr: 10, window_low: 10, window_high: 1000 };
+  t2_params = { path: '../img/mrl-t2.nii.gz', volume: null, is_loaded: false, low_thr: 10, window_low: 10, window_high: 1000 };
+  vol_dict = { "CT": ct_params, "T1": t1_params, "T2": t2_params };
 
-  bone_mesh = new X.mesh();
-  bone_mesh.file = '../img/bones.stl';
-  bone_mesh.color = [1, 0.95, 0.75];
-  bone_mesh.opacity = 1;
-  bone_mesh.visible = false;
-
-  surface_mesh = new X.mesh();
-  surface_mesh.file = '../img/surface.stl';
-  surface_mesh.color = [.5, 0.5, 0.5];
-  surface_mesh.opacity = 1;
-  surface_mesh.visible = false;
-
-  bladder_mesh = new X.mesh();
-  bladder_mesh.file = '../img/bladder.stl';
-  bladder_mesh.color = [0, 0.1, 0.9];
-  bladder_mesh.opacity = 1;
-  bladder_mesh.visible = false;
-
-
-  
+  surface_params = { path: '../img/surface.stl', mesh: null, color: [.5, .5, .5], is_loaded: false, gui: null };
+  bone_params = { path: '../img/bones.stl', mesh: null, color: [1, .95, .75], is_loaded: false, gui: null };
+  bladder_params = { path: '../img/bladder.stl', mesh: null, color: [0, .1, .9], is_loaded: false, gui: null };
+  mesh_dict = { "Surface": surface_params, "Bone": bone_params, "Swim Bladder": bladder_params };
 
   renderer.onShowtime = function () {
-    add_gui();
-    add_volume_gui();
-    add_mesh_gui(surface_mesh,surface_mesh_gui,surface_load_flag,"Surface");
-    add_mesh_gui(bone_mesh,bone_mesh_gui,bone_load_flag,"Bone");
-    add_mesh_gui(bladder_mesh,bladder_mesh_gui,bladder_load_flag,"Swim Bladder");
-    
+
+    gui = new dat.GUI();
+
+    load_volume("CT");
+    add_meshes_to_scene();
 
   };
 
-  renderer.camera.focus = [0,0,0];
-  renderer.camera.o = new Float32Array([ -0.11675607413053513, -0.04434124007821083, -0.9921701550483704, 0, -0.02909557707607746, -0.9984213709831238, 0.048044800758361816, 0, -0.9927340149879456, 0.03447747603058815,0.11528141051530838, 0,0,0,-340,1 ]);
+  renderer.camera.focus = [0, 0, 0];
+  renderer.camera.o = new Float32Array([-0.11675607413053513, -0.04434124007821083, -0.9921701550483704, 0, -0.02909557707607746, -0.9984213709831238, 0.048044800758361816, 0, -0.9927340149879456, 0.03447747603058815, 0.11528141051530838, 0, 0, 0, -340, 1]);
 
   renderer.render();
-
-  
 };
