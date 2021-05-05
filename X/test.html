@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>XTK TEST COMPILED!</title>
+
+<script src="closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="X.js"></script>
+<script type="text/javascript" src="visualization/renderer3D.js"></script>
+
+
+<script type="text/javascript">
+  var run = function() {
+    
+    var r = new X.renderer3D();
+    r.container = 'r';
+    r.init();
+    
+    var cube = new X.cube();
+    
+    r.add(cube);
+
+    r.render();
+     
+  };
+</script>
+
+<body onload="run()">
+  
+  
+  <div id="r" style="background-color: #000000; width: 100%; height: 100%;"></div>
+    
+</body>

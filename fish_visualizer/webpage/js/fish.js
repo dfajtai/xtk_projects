@@ -62,6 +62,7 @@ function add_volume_gui(vol_name) {
   upperThreshold = (vol_dict[vol_name].hasOwnProperty("high_thr")) ? vol_dict[vol_name].high_thr : vol_dict[vol_name].volume.max;
 
   volumegui = gui.addFolder(vol_name + ' volume');
+  var vController = volumegui.add(vol_dict[vol_name].volume, 'visible');
   var vrController = volumegui.add(vol_dict[vol_name].volume, 'volumeRendering');
 
   var minColorController = volumegui.addColor(vol_dict[vol_name].volume, 'minColor');
@@ -82,10 +83,9 @@ function add_volume_gui(vol_name) {
   vol_dict[vol_name].volume.windowHigh = window_high;
 
   var lowerWindowController = volumegui.add(vol_dict[vol_name].volume, 'windowLow', vol_dict[vol_name].volume.min,
-  vol_dict[vol_name].volume.max);
-    var upperWindowController = volumegui.add(vol_dict[vol_name].volume, 'windowHigh', vol_dict[vol_name].volume.min,
     vol_dict[vol_name].volume.max);
-
+  var upperWindowController = volumegui.add(vol_dict[vol_name].volume, 'windowHigh', vol_dict[vol_name].volume.min,
+    vol_dict[vol_name].volume.max);
 
   var sliceXController = volumegui.add(vol_dict[vol_name].volume, 'indexX', 0,
     vol_dict[vol_name].volume.range[0] - 1);
@@ -117,6 +117,7 @@ function add_mesh_gui(mesh_name) {
 
   mesh_dict[mesh_name].gui = gui.addFolder(mesh_name + ' mesh');
   var meshVisibleController = mesh_dict[mesh_name].gui.add(mesh_dict[mesh_name].mesh, 'visible');
+  //var meshOpacityController = mesh_dict[mesh_name].gui.add(mesh_dict[mesh_name].mesh, 'opacity',0,1);
 
   mesh_dict[mesh_name].gui.open();
 
@@ -159,7 +160,7 @@ window.onload = function () {
   vol_dict = { "CT": ct_params, "T1": t1_params, "T2": t2_params };
 
   surface_params = { path: '../img/surface.stl', mesh: null, color: [.5, .5, .5], is_loaded: false, gui: null };
-  bone_params = { path: '../img/bones.stl', mesh: null, color: [1, .95, .75], is_loaded: false, gui: null };
+  bone_params = { path: '../img/bones.stl', mesh: null, color: [1, .95, .85], is_loaded: false, gui: null };
   bladder_params = { path: '../img/bladder.stl', mesh: null, color: [0, .1, .9], is_loaded: false, gui: null };
   mesh_dict = { "Surface": surface_params, "Bone": bone_params, "Swim Bladder": bladder_params };
 
