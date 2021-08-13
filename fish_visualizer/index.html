@@ -1,0 +1,35 @@
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>FISH CT example</title>
+
+    <!---
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+--->
+    <script type="text/javascript" src="js/xtk_edge.js"></script>
+    <script type="text/javascript" src="js/xtk_xdat.js"></script>
+    <script type="text/javascript" src="js/fish.js"></script>
+    <script type="text/javascript" src="js/fish_expert_gui.js"></script>
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script>
+        use_expert_gui=false;
+        camera_rotate_step = 5;
+        camera_distance = 400;
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="fish.css">
+</head>
+
+<body>
+    <div class="white" style="position:absolute; bottom:3px; left:3px;">
+        <button onclick="show_volume('CT')" class="btn" style="padding:7px;">Show CT</button>
+        <button onclick="show_volume('T1')" class="btn" style="padding:7px;">Show T1</button>
+        <button onclick="show_volume('T2')" class="btn" style="padding:7px;">Show T2</button>
+        <button onclick="show_volume(current_volume_name)" class="btn" style="padding:7px;">Reset current volume</button>
+    </div>
+</body>
+
+</html>
