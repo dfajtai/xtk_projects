@@ -2,7 +2,14 @@ var camera_rotate_step = null;
 var default_camerate_rotate_step = 5;
 
 
-function rotate_camera(rotate_step = null){
+function rotate_camera_next(rotate_step = null){
+  if (!rotate_step) rotate_step = camera_rotate_step;
+  if (!rotate_step) rotate_step = default_camerate_rotate_step;
+  camera_rotate_step = rotate_step;
+  renderer.camera.rotate([rotate_step, 0]);
+}
+
+function rotate_camera_previous(rotate_step = null){
   if (!rotate_step) rotate_step = camera_rotate_step;
   if (!rotate_step) rotate_step = default_camerate_rotate_step;
   camera_rotate_step = rotate_step;
