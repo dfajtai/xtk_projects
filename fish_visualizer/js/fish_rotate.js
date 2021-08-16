@@ -13,7 +13,7 @@ function rotate_camera_previous(rotate_step = null){
   if (!rotate_step) rotate_step = camera_rotate_step;
   if (!rotate_step) rotate_step = default_camerate_rotate_step;
   camera_rotate_step = rotate_step;
-  renderer.camera.rotate([rotate_step, 0]);
+  renderer.camera.rotate([-rotate_step, 0]);
 }
 
 function invert_camera_rotation() {

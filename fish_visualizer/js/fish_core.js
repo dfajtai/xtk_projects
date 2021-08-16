@@ -185,7 +185,6 @@ function set_rendering_mode(vol_name, rendering_mode = null) {
       renderer.remove(vol_dict[vol_name].volume)
     }
     catch (e) { console.log(e); }
-
     stop_slice_loop();
 
     vol_dict[vol_name].volume.minColor = vol_dict[vol_name].volume_min_color;
@@ -330,6 +329,7 @@ window.onload = function () {
   renderer.onShowtime = function () {
     if (use_expert_gui) expert_gui = new dat.GUI();
     show_volume("CT");
+    start_camera_rotation();
     init_meshes();
   };
 
