@@ -32,24 +32,25 @@ function add_mesh_expert_gui(mesh_name) {
   });
 }
 
+
 function add_volume_expert_gui(vol_name) {
 
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
   if (!vol_dict[vol_name].is_loaded) return;
-  
+
   if (vol_dict[vol_name].current_level) level = vol_dict[vol_name].current_level;
   else level = vol_dict[vol_name].default_level;
-  
+
   if (!vol_dict[vol_name].levels.hasOwnProperty(level)) return;
 
   level_info = vol_dict[vol_name].levels[level];
 
-  if(level_info.hasOwnProperty("opacity")) vol_dict[vol_name].volume.opacity = level_info.opacity;
-  if(level_info.hasOwnProperty("low_thr")) vol_dict[vol_name].volume.lowerThreshold = level_info.low_thr;
-  if(level_info.hasOwnProperty("high_thr")) vol_dict[vol_name].volume.upperThreshold = level_info.high_thr;
-  if(level_info.hasOwnProperty("window_low")) vol_dict[vol_name].volume.windowLow = level_info.window_low;
-  if(level_info.hasOwnProperty("window_high")) vol_dict[vol_name].volume.windowHigh = level_info.window_high;
+  if (level_info.hasOwnProperty("opacity")) vol_dict[vol_name].volume.opacity = level_info.opacity;
+  if (level_info.hasOwnProperty("low_thr")) vol_dict[vol_name].volume.lowerThreshold = level_info.low_thr;
+  if (level_info.hasOwnProperty("high_thr")) vol_dict[vol_name].volume.upperThreshold = level_info.high_thr;
+  if (level_info.hasOwnProperty("window_low")) vol_dict[vol_name].volume.windowLow = level_info.window_low;
+  if (level_info.hasOwnProperty("window_high")) vol_dict[vol_name].volume.windowHigh = level_info.window_high;
 
 
   volumegui = expert_gui.addFolder(vol_name + ' volume');
@@ -60,7 +61,7 @@ function add_volume_expert_gui(vol_name) {
   //var maxColorController = volumegui.addColor(vol_dict[vol_name].volume, 'maxColor');
 
   //var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0.01, 0.5).listen();
-  var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0.01, 0.5).listen();
+  //var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0, 1);
 
   var lowerThresholdController = volumegui.add(vol_dict[vol_name].volume, 'lowerThreshold',
     vol_dict[vol_name].volume.min, vol_dict[vol_name].volume.max);

@@ -11,13 +11,17 @@
 --->
     <script type="text/javascript" src="js/xtk_edge.js"></script>
     <script type="text/javascript" src="js/xtk_xdat.js"></script>
-    <script type="text/javascript" src="js/fish.js"></script>
-    <script type="text/javascript" src="js/fish_expert_gui.js"></script>
     <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/math.js"></script>
+    <script type="text/javascript" src="js/fish_expert_gui.js"></script>
+    <script type="text/javascript" src="js/fish_slice.js"></script>
+    <script type="text/javascript" src="js/fish_rotate.js"></script>
+    <script type="text/javascript" src="js/fish_animation.js"></script>
+    <script type="text/javascript" src="js/fish_core.js"></script>
     <script>
-        use_expert_gui=false;
-        camera_rotate_step = 5;
-        camera_distance = 400;
+        use_expert_gui = false;
+        default_camerate_rotate_step = 5;
+        dafault_camera_distance = 400;
     </script>
 
     <link rel="stylesheet" type="text/css" href="fish.css">
@@ -28,7 +32,8 @@
         <button onclick="show_volume('CT')" class="btn" style="padding:7px;">Show CT</button>
         <button onclick="show_volume('T1')" class="btn" style="padding:7px;">Show T1</button>
         <button onclick="show_volume('T2')" class="btn" style="padding:7px;">Show T2</button>
-        <button onclick="show_volume(current_volume_name)" class="btn" style="padding:7px;">Reset current volume</button>
+        <button onclick="show_volume(current_volume_name)" class="btn" style="padding:7px;">Reset current
+            volume</button>
     </div>
 </body>
 
