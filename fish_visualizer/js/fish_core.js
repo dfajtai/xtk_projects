@@ -1,31 +1,28 @@
-var renderer;
+var renderer; // xtk renderer object
 
-var current_vol_name = null;
+var current_vol_name = null; // name of the currently active volume
 
-var vol_dict = {};
-var mesh_dict = {};
+var vol_dict = {}; // dicitionary of available volumes
+var mesh_dict = {};  // dictionary of available meshes
 
-var preset_dict = {};
+var camera_init_position = null; // camera initial position. this will be set with the init_camera_position function.
 
-var camera_init_position = null;
+var default_camera_distance = 400; // default camera distance
+var camera_distance = null; // current camera distance
 
-var dafault_camera_distance = 400;
-var default_camera_slice_rotation = 45;
-var camera_distance = null;
+var use_expert_gui = false;  // you shold keep this variable at false - you should use this for testing purposes only
+var expert_gui;  // exper gui object... 
 
-var use_expert_gui = false;
-var expert_gui;
-
-var rendering_modes = { volume: "volume", slice: "slice" };
+var rendering_modes = { volume: "volume", slice: "slice" }; // rendering modes available for volumes
 var default_rendering_mode = rendering_modes.volume;
-var current_rendering_mode = null;
+var current_rendering_mode = null;  // currently active rendering mode
 
-var default_volume_color = { min: [0, 0, 0], max: [0, 255, 255] };
-var default_slice_color = { min: [0, 0, 0], max: [1, 1, 1] };
-var default_slice_opacity = 0.8;
+var default_volume_color = { min: [0, 0, 0], max: [0, 255, 255] };   // default color range for volume rendering
+var default_slice_color = { min: [0, 0, 0], max: [1, 1, 1] };  // default color range slice rendering
+var default_slice_opacity = 0.8;  // slice opacity, seems not work for me.
 
 
-
+// disable user input and interactions for custom made gui
 function disable_input() {
   if (!renderer) return;
   renderer.interactor.config.MOUSEWHEEL_ENABLED = false;
@@ -37,10 +34,14 @@ function disable_input() {
   renderer.interactor.init();
 }
 
+
+// loads the volume and mesh json files to initialize the vol_dict and mesh_dict dicitionaries. 
 function load_settings(vol_json_path, mesh_json_path) {
   test_settings();
 }
 
+
+// test settings...
 function test_settings() {
   ct_bone_level = { low_thr: 150, high_thr: 3000, window_low: 150, window_high: 800, opacity: 0.08 };
   ct_interior_level = { low_thr: -750, high_thr: -150, window_low: -600, window_high: 800, opacity: 0.08 };
@@ -77,10 +78,12 @@ function test_settings() {
 }
 
 
-function init_camera_position(distance) {
+// this function initializes the camera position to a side view using only a camera distance (if not given uses the default camera distance )
+function init_camera_position(distance = null) {
   renderer.camera.focus = [0, 0, 0];
+  if (!distance) distance = default_camera_distance;
   if (!camera_init_position) {
-    position = new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, - distance, 1]);
+    position = new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, - distance, 1]); // hardcoded camera direction. 
     renderer.camera.o = [...position];
     camera_init_position = [...position];
     camera_distance = distance;
@@ -90,14 +93,27 @@ function init_camera_position(distance) {
   }
 }
 
+// resets the camera position to the initial position
+function reset_camera() {
+  if (camera_init_position) {
+    renderer.camera.focus = [0, 0, 0];
+    renderer.camera.o = [...camera_init_position];
+  }
+  else {
+    init_camera_position();
+  }
+}
+
+// changes the camera distance
 function set_camera_distance(distance = null) {
   renderer.camera.focus = [0, 0, 0];
+  if (!distance) distance = default_camera_distance;
   position = new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, - distance, 1]);
   renderer.camera.o = [...position];
   camera_distance = distance;
 }
 
-
+// loads a volume if not yet loaded
 function load_volume(vol_name) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -111,6 +127,7 @@ function load_volume(vol_name) {
   }
 }
 
+// initialize volume colors
 function init_volume_colors(vol_name) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
   if (!vol_dict[vol_name].volume_min_color) vol_dict[vol_name].volume_min_color = default_volume_color.min;
@@ -119,6 +136,8 @@ function init_volume_colors(vol_name) {
   if (!vol_dict[vol_name].slice_max_color) vol_dict[vol_name].slice_max_color = default_slice_color.max;
 }
 
+
+// resolves the rendering mode
 function resolve_rendering_mode(rendering_mode) {
   if (!rendering_mode) rendering_mode = current_rendering_mode;
   if (!rendering_modes.hasOwnProperty(rendering_mode)) rendering_mode = default_rendering_mode;
@@ -126,6 +145,8 @@ function resolve_rendering_mode(rendering_mode) {
   return current_rendering_mode;
 }
 
+
+// this is the main function you should use to show a volume. level selection is only relevant in volume rendering mode.
 function show_volume(vol_name, level = null, rendering_mode = null) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -152,7 +173,7 @@ function show_volume(vol_name, level = null, rendering_mode = null) {
         current_vol_name = vol_name;
       };
     }
-    else{
+    else {
       console.log("Error during volume level selection");
     }
   }
@@ -165,12 +186,13 @@ function show_volume(vol_name, level = null, rendering_mode = null) {
       set_rendering_mode(vol_name, rendering_mode);
       current_vol_name = vol_name;
     }
-    else{
+    else {
       console.log("Error during volume level selection");
     }
   }
 }
 
+// you should not call this function manually
 function set_rendering_mode(vol_name, rendering_mode = null) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -203,12 +225,12 @@ function set_rendering_mode(vol_name, rendering_mode = null) {
     renderer.add(vol_dict[vol_name].volume)
     vol_dict[vol_name].volume.volumeRendering = false;
     init_slice_mode(vol_name);
-    set_camera_y_rotation(default_camera_slice_rotation)
-    start_slice_loop();
+
   }
 }
 
 
+// you should not call this function manually ( apply settings for VOLUME rendering at a given level ) 
 function set_volume_level(vol_name, level = null) {
   if (!vol_dict.hasOwnProperty(vol_name)) return false;
 
@@ -232,6 +254,8 @@ function set_volume_level(vol_name, level = null) {
   return true;
 }
 
+
+// you should not call this function manually ( apply settings for SLICE rendering ) 
 function set_slice_level(vol_name) {
   if (!vol_dict.hasOwnProperty(vol_name)) return false;
 
@@ -249,6 +273,7 @@ function set_slice_level(vol_name) {
 
 }
 
+// you should not call this function manually
 function set_level(vol_name, level = null, rendering_mode = null) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -266,7 +291,7 @@ function set_level(vol_name, level = null, rendering_mode = null) {
   }
 }
 
-
+// initializes the mesh dicitionary
 function init_meshes() {
   for (var mesh_name in mesh_dict) {
     if (mesh_dict.hasOwnProperty(mesh_name)) {
@@ -280,7 +305,7 @@ function init_meshes() {
   }
 }
 
-
+// manipulates mesh visibility (Notice: some mesh can hide the others)
 function set_mesh_visibility(mesh_name, visibility) {
   if (!mesh_dict.hasOwnProperty(mesh_name)) return;
   if (!mesh_dict[mesh_name].is_loaded) {
@@ -317,11 +342,31 @@ function set_mesh_visibility(mesh_name, visibility) {
 
 }
 
+// hide all mesh
+function hide_all_mesh() {
+  Object.values(mesh_dict).forEach(_mesh => {
+    if (_mesh.is_loaded) {
+      _mesh.mesh.visible = false;
+    }
+  })
+}
+
+// sets the given mesh to visible
+function show_mesh(mesh_name) {
+  set_mesh_visibility(mesh_name, true);
+}
+
+
+// sets the given mesh to not-visible
+function hide_mesh(mesh_name) {
+  set_mesh_visibility(mesh_name, false);
+}
+
 
 window.onload = function () {
   renderer = new X.renderer3D();
   renderer.init();
-  disable_input();
+  //disable_input();
   init_camera_position(dafault_camera_distance);
 
   load_settings(null, null);

@@ -1,3 +1,4 @@
+// global variables to store the actual state of the animations
 var camera_rotate_switch = false;
 var slice_loop_switch = false;
 
@@ -23,6 +24,14 @@ function start_slice_loop() {
 function stop_slice_loop() {
   renderer.onRender = function () {
     fish_animation(camera_rotate_switch,false);
+  };
+}
+
+// start/stop anmations in one function call 
+// this can fix the concurrent read/write problem in my test case, if the problem reoccures, implement a semaphore or mutex
+function set_animation(rotate, loop){
+  renderer.onRender = function () {
+    fish_animation(rotate,loop);
   };
 }
 

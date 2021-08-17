@@ -1,21 +1,23 @@
-bbox = null;
-axis_dict = { x: 0, y: 1, z: 2 };
-default_slice_axis = "z";
-current_slice_axis = null;
+var bbox = null;
+var axis_dict = { x: 0, y: 1, z: 2 };
+
+var default_slice_axis = "x";
+var current_slice_axis = null;
 
 // parameters
-var loop_step_size = 2;
-var loop_frame_delay = 1;
+var loop_step_size = 2; // only every loop_step_size'th slice will be shown
+var loop_frame_delay = 1; // every loop_frame_delay'th frame will "step" the slice
+var loop_set_to_view = true; // if true, slice is aligned to the camera
 
-// loop controlling variables. no not modify these values manually
+// loop controlling variables. DO NOT MODIFY THESE VARIABLES MANUALLY
 var loop_direction = 1;
 var loop_frame_index = 0;
 var loop_slice_index = 0;
 var loop_vol_name = "";
-
 var loop_max_index = null;
 
 
+// initializes slice mode. to switch 
 function init_slice_mode(vol_name, axis = null, show_bbox = false) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -40,12 +42,16 @@ function init_slice_mode(vol_name, axis = null, show_bbox = false) {
   loop_max_index = get_max_slice(vol_name, axis);
   loop_vol_name = vol_name;
 
+  set_animation(false,true);
+  
   show_volume_slice(vol_name, axis, loop_slice_index);
-
+  if(loop_set_to_view)  set_camera_to_view(axis_view_dict[axis]);
   if (show_bbox) draw_bbox(vol_name);
 
 }
 
+
+// you should not call this function manually -  shows a given slice
 function show_volume_slice(vol_name, axis, index) {
   if (!axis_dict.hasOwnProperty(axis)) return;
   max_index = get_max_slice(vol_name, axis);
@@ -61,6 +67,7 @@ function show_volume_slice(vol_name, axis, index) {
   }
 }
 
+
 function get_max_slice(vol_name, axis) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
@@ -74,6 +81,7 @@ function get_max_slice(vol_name, axis) {
 
 }
 
+// slice "forward" backward
 function next_slice() {
   new_slice_index = loop_slice_index + loop_direction * loop_step_size;
   show_volume_slice(loop_vol_name, current_slice_axis, new_slice_index);
@@ -84,6 +92,7 @@ function next_slice() {
   return new_slice_index;
 }
 
+// slice "step" backward
 function previous_slice() {
   new_slice_index = loop_slice_index - loop_direction * loop_step_size;
   show_volume_slice(loop_vol_name, current_slice_axis, new_slice_index);
@@ -94,6 +103,8 @@ function previous_slice() {
   return new_slice_index;
 }
 
+
+// loop-like structure to... loop between slices automatically
 function loop_slices() {
   loop_frame_index += 1;
   if (loop_frame_index > loop_frame_delay) {
@@ -103,6 +114,7 @@ function loop_slices() {
   }
 }
 
+// you should use this for testing purposes only
 function draw_bbox(vol_name) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
