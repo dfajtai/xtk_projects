@@ -28,7 +28,7 @@ function invert_camera_rotation() {
 
 // sets camera rotation along the y axis 
 function set_camera_y_rotation(angle) {
-  init_camera_position();
+  reset_camera();
   let rad = angle * (Math.PI / 180);
   let M = [...renderer.camera.o]
   M[0] = Math.cos(rad);
