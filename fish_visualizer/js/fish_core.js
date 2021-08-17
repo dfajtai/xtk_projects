@@ -1,22 +1,28 @@
 var renderer; // xtk renderer object
-
-var current_vol_name = null; // name of the currently active volume
-
-var vol_dict = {}; // dicitionary of available volumes
-var mesh_dict = {};  // dictionary of available meshes
-
-var camera_init_position = null; // camera initial position. this will be set with the init_camera_position function.
-
-var default_camera_distance = 400; // default camera distance
-var camera_distance = null; // current camera distance
-
 var use_expert_gui = false;  // you shold keep this variable at false - you should use this for testing purposes only
 var expert_gui;  // exper gui object... 
 
+var param_json_path = null;
+
+var vol_dict = {}; // dicitionary of available volumes
+var mesh_dict = {};  // dictionary of available meshes
+var fish_settings = {}; // dictionary for settings
+var current_vol_name = null; // name of the currently active volume
+
+// camera parameters
+var camera_init_position = null; // camera initial position. this will be set with the init_camera_position function.
+// fish_settings.camera.default_orientation default camera orientation describet with an array
+// fish_settings.camera.default_distance = 400; // default camera distance
+var camera_distance = null; // current camera distance
+
+// hardcoded parameters ...
+
+// rendering
 var rendering_modes = { volume: "volume", slice: "slice" }; // rendering modes available for volumes
 var default_rendering_mode = rendering_modes.volume;
 var current_rendering_mode = null;  // currently active rendering mode
 
+// colors
 var default_volume_color = { min: [0, 0, 0], max: [0, 255, 255] };   // default color range for volume rendering
 var default_slice_color = { min: [0, 0, 0], max: [1, 1, 1] };  // default color range slice rendering
 var default_slice_opacity = 0.8;  // slice opacity, seems not work for me.
@@ -34,13 +40,6 @@ function disable_input() {
   renderer.interactor.init();
 }
 
-
-// loads the volume and mesh json files to initialize the vol_dict and mesh_dict dicitionaries. 
-function load_settings(vol_json_path, mesh_json_path) {
-  test_settings();
-}
-
-
 // test settings...
 function test_settings() {
   ct_bone_level = { low_thr: 150, high_thr: 3000, window_low: 150, window_high: 800, opacity: 0.08 };
@@ -49,7 +48,7 @@ function test_settings() {
   ct_gut_level = { low_thr: -50, high_thr: 90, window_low: 70, window_high: 200, opacity: 0.08 };
   ct_levels = { "bone": ct_bone_level, "interior": ct_interior_level, "muscle": ct_muscle_level, "gut": ct_gut_level };
   ct_params = {
-    path: '../img/ct.nii.gz', volume: null, is_loaded: false, default_level: "bone", current_level: "", levels: ct_levels, min_val: -900, max_val: 1500,
+    path: '../img/ct.nii.gz', volume: null, is_loaded: false, default_level: "bone", current_level: "", levels: ct_levels, slice_min: -900, slice_max: 1500,
     volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
   };
 
@@ -57,7 +56,7 @@ function test_settings() {
   t1_gut_level = { low_thr: 600, high_thr: 800, window_low: 500, window_high: 800, opacity: 0.08 };
   t1_levels = { "interior": t1_interior_level, "gut": t1_gut_level };
   t1_params = {
-    path: '../img/mr-t1_n4corr.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t1_levels, min_val: 10, max_val: 1000,
+    path: '../img/mr-t1_n4corr.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t1_levels, slice_min: 10, slice_max: 1000,
     volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
   };
 
@@ -65,11 +64,13 @@ function test_settings() {
   t2_gut_level = { low_thr: 400, high_thr: 600, window_low: 450, window_high: 1000, opacity: 0.08 };
   t2_levels = { "gut": t2_gut_level };
   t2_params = {
-    path: '../img/mrl-t2.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t2_levels, min_val: 10, max_val: 1000,
+    path: '../img/mrl-t2.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t2_levels, slice_min: 10, slice_max: 1000,
     volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
   };
 
   vol_dict = { "CT": ct_params, "T1": t1_params, "T2": t2_params };
+
+  console.log(JSON.stringify(vol_dict));
 
   surface_params = { path: '../img/surface.stl', mesh: null, color: [.5, .5, .5], is_loaded: false, hide_others: true };
   bone_params = { path: '../img/bones.stl', mesh: null, color: [1, .95, .85], is_loaded: false, hide_others: false };
@@ -81,9 +82,10 @@ function test_settings() {
 // this function initializes the camera position to a side view using only a camera distance (if not given uses the default camera distance )
 function init_camera_position(distance = null) {
   renderer.camera.focus = [0, 0, 0];
-  if (!distance) distance = default_camera_distance;
+  if (!distance) distance = fish_settings.camera.default_distance;
   if (!camera_init_position) {
-    position = new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, - distance, 1]); // hardcoded camera direction. 
+    position = new Float32Array(fish_settings.camera.default_orientation);
+    position[14] = - fish_settings.camera.default_distance;
     renderer.camera.o = [...position];
     camera_init_position = [...position];
     camera_distance = distance;
@@ -107,8 +109,9 @@ function reset_camera() {
 // changes the camera distance
 function set_camera_distance(distance = null) {
   renderer.camera.focus = [0, 0, 0];
-  if (!distance) distance = default_camera_distance;
-  position = new Float32Array([0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, - distance, 1]);
+  if (!distance) distance = fish_settings.camera.default_distance;
+  position = renderer.camera.o;
+  position[14] = - distance;
   renderer.camera.o = [...position];
   camera_distance = distance;
 }
@@ -263,10 +266,10 @@ function set_slice_level(vol_name) {
     load_volume(vol_name);
   }
   vol_dict[vol_name].volume.opacity = default_slice_opacity;
-  if (vol_dict[vol_name].hasOwnProperty("min_val")) vol_dict[vol_name].volume.lowerThreshold = vol_dict[vol_name].min_val;
-  if (vol_dict[vol_name].hasOwnProperty("max_val")) vol_dict[vol_name].volume.upperThreshold = vol_dict[vol_name].max_val;
-  if (vol_dict[vol_name].hasOwnProperty("min_val")) vol_dict[vol_name].volume.windowLow = vol_dict[vol_name].min_val + 1;
-  if (vol_dict[vol_name].hasOwnProperty("max_val")) vol_dict[vol_name].volume.windowHigh = vol_dict[vol_name].max_val - 1;
+  if (vol_dict[vol_name].hasOwnProperty("slice_min")) vol_dict[vol_name].volume.lowerThreshold = vol_dict[vol_name].slice_min;
+  if (vol_dict[vol_name].hasOwnProperty("slice_max")) vol_dict[vol_name].volume.upperThreshold = vol_dict[vol_name].slice_max;
+  if (vol_dict[vol_name].hasOwnProperty("slice_min")) vol_dict[vol_name].volume.windowLow = vol_dict[vol_name].slice_min + 1;
+  if (vol_dict[vol_name].hasOwnProperty("slice_max")) vol_dict[vol_name].volume.windowHigh = vol_dict[vol_name].slice_max - 1;
   vol_dict[vol_name].current_level = null;
 
   return true;
@@ -366,21 +369,25 @@ function hide_mesh(mesh_name) {
 window.onload = function () {
   renderer = new X.renderer3D();
   renderer.init();
-  //disable_input();
-  init_camera_position(dafault_camera_distance);
+  disable_input();
+  
+  $.getJSON(param_json_path, function (json) {
+    if (json.hasOwnProperty("mesh")) mesh_dict = json.mesh;
+    if (json.hasOwnProperty("volume")) vol_dict = json.volume;
+    if (json.hasOwnProperty("settings")) fish_settings = json.settings;
+    init_camera_position(dafault_camera_distance);
 
-  load_settings(null, null);
-
-  renderer.onShowtime = function () {
-    if (use_expert_gui) expert_gui = new dat.GUI();
-    show_volume("CT");
-    start_camera_rotation();
     init_meshes();
-  };
 
-  renderer.onRender = function () {
-    fish_animation();
-  };
-
-  renderer.render();
-};
+    renderer.onShowtime = function () {
+      if (use_expert_gui) expert_gui = new dat.GUI();
+      show_volume("CT");
+      start_camera_rotation();
+      
+    };
+    renderer.onRender = function () {
+      fish_animation();
+    };
+    renderer.render();
+  });
+}

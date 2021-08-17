@@ -2,28 +2,28 @@ var camera_views = { top: 1, side: 2, front: 3 }
 var axis_view_dict = { x: camera_views.side, y: camera_views.top, z: camera_views.front };
 
 // camera rotation settings
-var camera_rotate_step = null;
-var default_camerate_rotate_step = 5;
+current_rotate_step = null;
+// fish_settings.rotate.default_rotate_step = 5;
 
 // camera rotation "step" forward
 function rotate_camera_next(rotate_step = null) {
-  if (!rotate_step) rotate_step = camera_rotate_step;
-  if (!rotate_step) rotate_step = default_camerate_rotate_step;
-  camera_rotate_step = rotate_step;
+  if (!rotate_step) rotate_step = current_rotate_step;
+  if (!rotate_step) rotate_step = fish_settings.rotate.default_rotate_step;
+  current_rotate_step = rotate_step;
   renderer.camera.rotate([rotate_step, 0]);
 }
 
 // camera rotation "step" backward
 function rotate_camera_previous(rotate_step = null) {
-  if (!rotate_step) rotate_step = camera_rotate_step;
-  if (!rotate_step) rotate_step = default_camerate_rotate_step;
-  camera_rotate_step = rotate_step;
+  if (!rotate_step) rotate_step = current_rotate_step;
+  if (!rotate_step) rotate_step = fish_settings.rotate.default_rotate_step;
+  current_rotate_step = rotate_step;
   renderer.camera.rotate([-rotate_step, 0]);
 }
 
 // inverts the camera rotation direction
 function invert_camera_rotation() {
-  camera_rotate_step = -camera_rotate_step;
+  current_rotate_step = -current_rotate_step;
 }
 
 // sets camera rotation along the y axis 

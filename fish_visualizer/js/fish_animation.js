@@ -1,4 +1,4 @@
-// global variables to store the actual state of the animations
+// global variables to store the actual state of the animations. DO NOT MODIFY THESE VARIABLES MANUALLY
 var camera_rotate_switch = false;
 var slice_loop_switch = false;
 
