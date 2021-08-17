@@ -1,0 +1,165 @@
+{
+    "mesh": {
+        "surface": {
+            "path": "../img/surface.stl",
+            "hide_others": true,
+            "color": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "mesh": null,
+            "is_loaded": false
+        },
+        "bone": {
+            "path": "../img/bones.stl",
+            "hide_others": false,
+            "color": [
+                1.0,
+                0.95,
+                0.9
+            ],
+            "mesh": null,
+            "is_loaded": false
+        },
+        "swim bladder": {
+            "path": "../img/bladder.stl",
+            "hide_others": false,
+            "color": [
+                0.0,
+                0.2,
+                1.0
+            ],
+            "mesh": null,
+            "is_loaded": false
+        }
+    },
+    "volume": {
+        "CT": {
+            "path": "../img/ct.nii.gz",
+            "default_level": "bone",
+            "slice_min": -900,
+            "slice_max": 1500,
+            "levels": {
+                "bone": {
+                    "low_thr": 150,
+                    "high_thr": 3000,
+                    "window_low": 150,
+                    "window_high": 800,
+                    "opacity": 0.08
+                },
+                "interior": {
+                    "low_thr": -750,
+                    "high_thr": -150,
+                    "window_low": -600,
+                    "window_high": 800,
+                    "opacity": 0.08
+                },
+                "muscle": {
+                    "low_thr": -400,
+                    "high_thr": 70,
+                    "window_low": 0,
+                    "window_high": 800,
+                    "opacity": 0.08
+                },
+                "gut": {
+                    "low_thr": -50,
+                    "high_thr": 90,
+                    "window_low": 70,
+                    "window_high": 200,
+                    "opacity": 0.08
+                }
+            },
+            "volume": null,
+            "is_loaded": false,
+            "current_level": "",
+            "volume_min_color": null,
+            "volume_max_color": null,
+            "slice_min_color": null,
+            "slice_max_color": null
+        },
+        "T1": {
+            "path": "../img/mr-t1_n4corr.nii.gz",
+            "default_level": "gut",
+            "slice_min": 10,
+            "slice_max": 1000,
+            "levels": {
+                "interior": {
+                    "low_thr": 300,
+                    "high_thr": 1000,
+                    "window_low": 500,
+                    "window_high": 1300,
+                    "opacity": 0.08
+                },
+                "gut": {
+                    "low_thr": 600,
+                    "high_thr": 800,
+                    "window_low": 500,
+                    "window_high": 800,
+                    "opacity": 0.08
+                }
+            },
+            "volume": null,
+            "is_loaded": false,
+            "current_level": "",
+            "volume_min_color": null,
+            "volume_max_color": null,
+            "slice_min_color": null,
+            "slice_max_color": null
+        },
+        "T2": {
+            "path": "../img/mrl-t2.nii.gz",
+            "default_level": "gut",
+            "slice_min": 10,
+            "slice_max": 1000,
+            "levels": {
+                "gut": {
+                    "low_thr": 400,
+                    "high_thr": 600,
+                    "window_low": 450,
+                    "window_high": 1000,
+                    "opacity": 0.08
+                }
+            },
+            "volume": null,
+            "is_loaded": false,
+            "current_level": "",
+            "volume_min_color": null,
+            "volume_max_color": null,
+            "slice_min_color": null,
+            "slice_max_color": null
+        }
+    },
+    "settings": {
+        "camera": {
+            "default_distance": 500,
+            "default_orientation": [
+                0,
+                0,
+                -1,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+            ]
+        },
+        "slice": {
+            "default_axis": "x",
+            "loop_step_size": 2,
+            "loop_frame_delay": 1,
+            "loop_set_to_view": true
+        },
+        "rotate": {
+            "default_rotate_step": 5
+        }
+    }
+}
