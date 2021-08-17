@@ -40,45 +40,6 @@ function disable_input() {
   renderer.interactor.init();
 }
 
-// test settings...
-function test_settings() {
-  ct_bone_level = { low_thr: 150, high_thr: 3000, window_low: 150, window_high: 800, opacity: 0.08 };
-  ct_interior_level = { low_thr: -750, high_thr: -150, window_low: -600, window_high: 800, opacity: 0.08 };
-  ct_muscle_level = { low_thr: -400, high_thr: 70, window_low: 0, window_high: 800, opacity: 0.08 };
-  ct_gut_level = { low_thr: -50, high_thr: 90, window_low: 70, window_high: 200, opacity: 0.08 };
-  ct_levels = { "bone": ct_bone_level, "interior": ct_interior_level, "muscle": ct_muscle_level, "gut": ct_gut_level };
-  ct_params = {
-    path: '../img/ct.nii.gz', volume: null, is_loaded: false, default_level: "bone", current_level: "", levels: ct_levels, slice_min: -900, slice_max: 1500,
-    volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
-  };
-
-  t1_interior_level = { low_thr: 300, high_thr: 1000, window_low: 500, window_high: 1300, opacity: 0.08 };
-  t1_gut_level = { low_thr: 600, high_thr: 800, window_low: 500, window_high: 800, opacity: 0.08 };
-  t1_levels = { "interior": t1_interior_level, "gut": t1_gut_level };
-  t1_params = {
-    path: '../img/mr-t1_n4corr.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t1_levels, slice_min: 10, slice_max: 1000,
-    volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
-  };
-
-
-  t2_gut_level = { low_thr: 400, high_thr: 600, window_low: 450, window_high: 1000, opacity: 0.08 };
-  t2_levels = { "gut": t2_gut_level };
-  t2_params = {
-    path: '../img/mrl-t2.nii.gz', volume: null, is_loaded: false, default_level: "gut", current_level: "", levels: t2_levels, slice_min: 10, slice_max: 1000,
-    volume_min_color: null, volume_max_color: null, slice_min_color: null, slice_max_color: null
-  };
-
-  vol_dict = { "CT": ct_params, "T1": t1_params, "T2": t2_params };
-
-  console.log(JSON.stringify(vol_dict));
-
-  surface_params = { path: '../img/surface.stl', mesh: null, color: [.5, .5, .5], is_loaded: false, hide_others: true };
-  bone_params = { path: '../img/bones.stl', mesh: null, color: [1, .95, .85], is_loaded: false, hide_others: false };
-  bladder_params = { path: '../img/bladder.stl', mesh: null, color: [0, .1, .9], is_loaded: false, hide_others: false };
-  mesh_dict = { "Surface": surface_params, "Bone": bone_params, "Swim Bladder": bladder_params };
-}
-
-
 // this function initializes the camera position to a side view using only a camera distance (if not given uses the default camera distance )
 function init_camera_position(distance = null) {
   renderer.camera.focus = [0, 0, 0];
