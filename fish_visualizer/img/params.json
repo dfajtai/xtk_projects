@@ -46,28 +46,68 @@
                     "high_thr": 3000,
                     "window_low": 150,
                     "window_high": 800,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        255,
+                        255,
+                        255
+                    ]
                 },
                 "interior": {
                     "low_thr": -750,
                     "high_thr": -150,
                     "window_low": -600,
                     "window_high": 800,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 },
                 "muscle": {
                     "low_thr": -400,
                     "high_thr": 70,
                     "window_low": 0,
                     "window_high": 800,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 },
                 "gut": {
                     "low_thr": -50,
                     "high_thr": 90,
                     "window_low": 70,
                     "window_high": 200,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 }
             },
             "volume": null,
@@ -89,14 +129,34 @@
                     "high_thr": 1000,
                     "window_low": 500,
                     "window_high": 1300,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 },
                 "gut": {
                     "low_thr": 600,
                     "high_thr": 800,
                     "window_low": 500,
                     "window_high": 800,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 }
             },
             "volume": null,
@@ -118,7 +178,17 @@
                     "high_thr": 600,
                     "window_low": 450,
                     "window_high": 1000,
-                    "opacity": 0.08
+                    "opacity": 0.08,
+                    "min_color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "max_color": [
+                        0,
+                        255,
+                        255
+                    ]
                 }
             },
             "volume": null,

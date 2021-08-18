@@ -69,11 +69,8 @@ function reset_camera() {
 
 // changes the camera distance
 function set_camera_distance(distance = null) {
-  renderer.camera.focus = [0, 0, 0];
   if (!distance) distance = fish_settings.camera.default_distance;
-  position = renderer.camera.o;
-  position[14] = - distance;
-  renderer.camera.o = [...position];
+  renderer.camera.o[14] = - distance;
   camera_distance = distance;
 }
 
@@ -94,8 +91,8 @@ function load_volume(vol_name) {
 // initialize volume colors
 function init_volume_colors(vol_name) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
-  if (!vol_dict[vol_name].volume_min_color) vol_dict[vol_name].volume_min_color = default_volume_color.min;
-  if (!vol_dict[vol_name].volume_max_color) vol_dict[vol_name].volume_max_color = default_volume_color.max;
+  // if (!vol_dict[vol_name].volume_min_color) vol_dict[vol_name].volume_min_color = default_volume_color.min;
+  // if (!vol_dict[vol_name].volume_max_color) vol_dict[vol_name].volume_max_color = default_volume_color.max;
   if (!vol_dict[vol_name].slice_min_color) vol_dict[vol_name].slice_min_color = default_slice_color.min;
   if (!vol_dict[vol_name].slice_max_color) vol_dict[vol_name].slice_max_color = default_slice_color.max;
 }
@@ -173,8 +170,8 @@ function set_rendering_mode(vol_name, rendering_mode = null) {
     catch (e) { console.log(e); }
     stop_slice_loop();
 
-    vol_dict[vol_name].volume.minColor = vol_dict[vol_name].volume_min_color;
-    vol_dict[vol_name].volume.maxColor = vol_dict[vol_name].volume_max_color;
+    // vol_dict[vol_name].volume.minColor = vol_dict[vol_name].volume_min_color;
+    // vol_dict[vol_name].volume.maxColor = vol_dict[vol_name].volume_max_color;
     renderer.add(vol_dict[vol_name].volume)
     vol_dict[vol_name].volume.volumeRendering = true;
 
@@ -207,6 +204,11 @@ function set_volume_level(vol_name, level = null) {
   if (!vol_dict[vol_name].levels.hasOwnProperty(level)) return false;
 
   level_info = vol_dict[vol_name].levels[level];
+
+  if (level_info.hasOwnProperty("min_color")) vol_dict[vol_name].volume.minColor = level_info.min_color;
+  else vol_dict[vol_name].volume.minColor = default_volume_color.min;
+  if (level_info.hasOwnProperty("max_color")) vol_dict[vol_name].volume.maxColor = level_info.max_color;
+  else vol_dict[vol_name].volume.maxColor = default_volume_color.max;
 
   if (level_info.hasOwnProperty("opacity")) vol_dict[vol_name].volume.opacity = level_info.opacity;
   if (level_info.hasOwnProperty("low_thr")) vol_dict[vol_name].volume.lowerThreshold = level_info.low_thr;

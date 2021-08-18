@@ -57,8 +57,8 @@ function add_volume_expert_gui(vol_name) {
   var vController = volumegui.add(vol_dict[vol_name].volume, 'visible');
   var vrController = volumegui.add(vol_dict[vol_name].volume, 'volumeRendering');
 
-  //var minColorController = volumegui.addColor(vol_dict[vol_name].volume, 'minColor');
-  //var maxColorController = volumegui.addColor(vol_dict[vol_name].volume, 'maxColor');
+  var minColorController = volumegui.addColor(vol_dict[vol_name].volume, 'minColor');
+  var maxColorController = volumegui.addColor(vol_dict[vol_name].volume, 'maxColor');
 
   //var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0.01, 0.5).listen();
   //var opacityController = volumegui.add(vol_dict[vol_name].volume, 'opacity', 0, 1);
