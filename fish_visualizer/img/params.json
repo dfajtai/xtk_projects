@@ -43,19 +43,19 @@
             "levels": {
                 "bone": {
                     "low_thr": 150,
-                    "high_thr": 3000,
-                    "window_low": 150,
-                    "window_high": 800,
-                    "opacity": 0.08,
+                    "high_thr": 1500,
+                    "window_low": -100,
+                    "window_high": 300,
+                    "opacity": 0.15,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        255,
-                        255,
-                        255
+                        0.9,
+                        0.85,
+                        0.7
                     ]
                 },
                 "interior": {
@@ -65,48 +65,48 @@
                     "window_high": 800,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.0,
+                        255.0,
+                        255.0
                     ]
                 },
                 "muscle": {
-                    "low_thr": -400,
+                    "low_thr": 10,
                     "high_thr": 70,
-                    "window_low": 0,
-                    "window_high": 800,
+                    "window_low": -50,
+                    "window_high": 20,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.88,
+                        0.66,
+                        0.5
                     ]
                 },
                 "gut": {
-                    "low_thr": -50,
-                    "high_thr": 90,
-                    "window_low": 70,
-                    "window_high": 200,
+                    "low_thr": 80,
+                    "high_thr": 150,
+                    "window_low": 50,
+                    "window_high": 70,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.7,
+                        0.4,
+                        0.1
                     ]
                 }
             },
@@ -131,14 +131,14 @@
                     "window_high": 1300,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.0,
+                        255.0,
+                        255.0
                     ]
                 },
                 "gut": {
@@ -148,14 +148,14 @@
                     "window_high": 800,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.0,
+                        255.0,
+                        255.0
                     ]
                 }
             },
@@ -180,14 +180,14 @@
                     "window_high": 1000,
                     "opacity": 0.08,
                     "min_color": [
-                        0,
-                        0,
-                        0
+                        0.0,
+                        0.0,
+                        0.0
                     ],
                     "max_color": [
-                        0,
-                        255,
-                        255
+                        0.0,
+                        255.0,
+                        255.0
                     ]
                 }
             },

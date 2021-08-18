@@ -75,7 +75,7 @@ function set_camera_distance(distance = null) {
 }
 
 // loads a volume if not yet loaded
-function load_volume(vol_name) {
+function load_volume(vol_name, _callback = null) {
   if (!vol_dict.hasOwnProperty(vol_name)) return;
 
   if (!vol_dict[vol_name].is_loaded) {
@@ -86,6 +86,7 @@ function load_volume(vol_name) {
     renderer.add(vol_dict[vol_name].volume);
     init_volume_colors(vol_name);
   }
+  if (_callback) _callback();
 }
 
 // initialize volume colors
@@ -123,26 +124,26 @@ function show_volume(vol_name, level = null, rendering_mode = null) {
   }
 
   rendering_mode = resolve_rendering_mode(rendering_mode);
-
+  
   if (!vol_dict[vol_name].is_loaded) {
-    load_volume(vol_name);
-    if (set_level(vol_name, level, rendering_mode)) {
-      vol_dict[vol_name].volume.visible = true;
+    load_volume(vol_name, function () {
       renderer.onShowtime = function () {
-        if (use_expert_gui) update_expert_gui(vol_name, current_vol_name);
-        set_rendering_mode(vol_name, rendering_mode);
-        current_vol_name = vol_name;
+        if (set_level(vol_name, level, rendering_mode)) {
+          vol_dict[vol_name].volume.visible = true;
+          if (use_expert_gui) update_expert_gui(vol_name, current_vol_name);
+          set_rendering_mode(vol_name, rendering_mode);
+          current_vol_name = vol_name;
+        }
+        else {
+          console.log("Error during volume level selection");
+        }
       };
-    }
-    else {
-      console.log("Error during volume level selection");
-    }
+
+    });
   }
   else {
+    vol_dict[vol_name].volume.visible = true;
     if (set_level(vol_name, level, rendering_mode)) {
-
-      vol_dict[vol_name].volume.visible = true;
-
       if (use_expert_gui) update_expert_gui(vol_name, current_vol_name);
       set_rendering_mode(vol_name, rendering_mode);
       current_vol_name = vol_name;
@@ -216,7 +217,6 @@ function set_volume_level(vol_name, level = null) {
   if (level_info.hasOwnProperty("window_low")) vol_dict[vol_name].volume.windowLow = level_info.window_low;
   if (level_info.hasOwnProperty("window_high")) vol_dict[vol_name].volume.windowHigh = level_info.window_high;
   vol_dict[vol_name].current_level = level;
-
   return true;
 }
 
@@ -333,7 +333,7 @@ window.onload = function () {
   renderer = new X.renderer3D();
   renderer.init();
   disable_input();
-  
+
   $.getJSON(param_json_path, function (json) {
     if (json.hasOwnProperty("mesh")) mesh_dict = json.mesh;
     if (json.hasOwnProperty("volume")) vol_dict = json.volume;
@@ -346,7 +346,7 @@ window.onload = function () {
       if (use_expert_gui) expert_gui = new dat.GUI();
       show_volume("CT");
       start_camera_rotation();
-      
+
     };
     renderer.onRender = function () {
       fish_animation();
