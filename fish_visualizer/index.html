@@ -24,8 +24,14 @@
     default_camerate_rotate_step = 5;
     dafault_camera_distance = 400;
 
-    param_json_path = "img/params.json";
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const fish_id = urlParams.get('fid');
 
+    if(!fish_id) console.log("ID not given.");
+    param_json_path = "xtk_fish_data/"+ fish_id +"/params.json";
+    console.log(param_json_path);
+    
   </script>
 
   <link rel="stylesheet" type="text/css" href="fish.css">

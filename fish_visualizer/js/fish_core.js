@@ -80,7 +80,7 @@ function load_volume(vol_name, _callback = null) {
 
   if (!vol_dict[vol_name].is_loaded) {
     vol_dict[vol_name].volume = new X.volume();
-    vol_dict[vol_name].volume.file = vol_dict[vol_name].path;
+    vol_dict[vol_name].volume.file = vol_dict[vol_name].dir + vol_dict[vol_name].resolution_prefix + vol_dict[vol_name].file_name;
     vol_dict[vol_name].is_loaded = true;
 
     renderer.add(vol_dict[vol_name].volume);
@@ -332,7 +332,7 @@ function hide_mesh(mesh_name) {
 window.onload = function () {
   renderer = new X.renderer3D();
   renderer.init();
-  disable_input();
+  if(!use_expert_gui) disable_input();
 
   $.getJSON(param_json_path, function (json) {
     if (json.hasOwnProperty("mesh")) mesh_dict = json.mesh;
@@ -345,7 +345,7 @@ window.onload = function () {
     renderer.onShowtime = function () {
       if (use_expert_gui) expert_gui = new dat.GUI();
       show_volume("CT");
-      start_camera_rotation();
+      //start_camera_rotation();
 
     };
     renderer.onRender = function () {
