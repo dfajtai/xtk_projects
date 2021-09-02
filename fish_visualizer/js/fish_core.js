@@ -264,7 +264,7 @@ function init_meshes() {
       mesh_dict[mesh_name].mesh = new X.mesh();
       mesh_dict[mesh_name].mesh.file = mesh_dict[mesh_name].path;
       mesh_dict[mesh_name].mesh.color = mesh_dict[mesh_name].color;
-      mesh_dict[mesh_name].mesh.opacity = 1;
+      mesh_dict[mesh_name].mesh.opacity = mesh_dict[mesh_name].opacity;
       mesh_dict[mesh_name].mesh.visible = false;
       mesh_dict[mesh_name].is_loaded = false;
     }
