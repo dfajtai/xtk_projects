@@ -22,7 +22,29 @@ XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my eng
 * Every fish may have multiple _meshes_ (e.g surface, bladder, bone, etc.), every mesh are created to visaualize different segmentations on the selected fish.
 * Mesh parameters are defined in the **params.json** file for every fish.
 
-### API 
+### Code structure
+* _js/_
+    * fish_core.js - contains  core functionalities for rendering, loading, control, parameters, etc
+    * fish_rotate.js - camera rotation functions (which mimincs the rotation of the fish) 
+    * fish_slice.js - slicing functions
+    * fish_animation.js - high level functions to start/stop rotation/slicing animations
+    * fish_expert_gui.js - expert gui for scene refinement and setup. this shuld be diesabled in the fianl product
+* _index.html_ - blank html page with script imports and ID resolving
+
+### Data storage logic
+* xtk_fish_data/ (root data directory )
+    * fish_id/ (f000, f004, etc. Every fish has a unique directory.)
+        * mesh1.stl
+        * mesh2. stl
+        * ...
+        * volume1.nii.gz
+        * volume2.nii.gz
+        * ...
+        * **params.json**
+
+### A more detailed description ("API documentation") 
+A more detailed description about this project, to prevent the well known case showed on the following image...
+![Only Gond knows](only_god_knows.jpeg) 
 #### Functions
 Short description of the main functions which are safe to call manually in runtime. **Functions that not appears in this table should not be used manually.**
 
@@ -60,29 +82,3 @@ current_rotate_step | fish_rotate.js | this variable can override the default va
 fish_settings.slice.default_axis | params.json | default axis of the slice visualization
 fish_settings.slice.loop_step_size | params.json | slice animation "step size" - indirectly affects the slice looping animation speed
 fish_settings.slice.loop_frame_delay | params.json | slice animation "step size" - directly affects the slice looping animation speed
-
-### Code structure
-* _js/_
-    * fish_core.js
->contins  core functionalities for rendering, loading, control, parameters, etc
-    * fish_rotate.js
-> camera rotation functions (which mimincs the rotation of the fish) 
-    * fish_slice.js
-> slicing functions
-    * fish_animation.js
-> high level functions to start/stop rotation/slicing animations
-    * fish_expert_gui.js
-> expert gui for scene refinement and setup. this shuld be diesabled in the fianl product
-* _index.html_
-> blank html page with script imports and ID resolving
-
-### Data storage logic
-* xtk_fish_data/ (root data directory )
-    * fish_id/ (f000, f004, etc. Every fish has a unique directory.)
-        * mesh1.stl
-        * mesh2. stl
-        * ...
-        * volume1.nii.gz
-        * volume2.nii.gz
-        * ...
-        * **params.json**
