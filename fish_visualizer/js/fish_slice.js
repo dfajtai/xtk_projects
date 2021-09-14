@@ -78,7 +78,7 @@ function get_max_slice(vol_name, axis) {
 
 }
 
-// slice "forward" backward
+// slice "step" forward
 function next_slice() {
   new_slice_index = slice_loop_control.slice_index + slice_loop_control.direction * fish_settings.slice.loop_step_size;
   show_volume_slice(slice_loop_control.vol_name, current_slice_axis, new_slice_index);

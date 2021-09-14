@@ -28,7 +28,7 @@ function stop_slice_loop() {
 }
 
 // start/stop anmations in one function call 
-// this can fix the concurrent read/write problem in my test case, if the problem reoccures, implement a semaphore or mutex
+// this can fix the concurrent read/write problem in my test case, if the problem re-occures, implement a semaphore or mutex
 function set_animation(rotate, loop){
   renderer.onRender = function () {
     fish_animation(rotate,loop);

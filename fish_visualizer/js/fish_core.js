@@ -115,11 +115,11 @@ function show_volume(vol_name, level = null, rendering_mode = null) {
   if (vol_dict.hasOwnProperty(current_vol_name)) {
     if (vol_dict[current_vol_name].is_loaded) {
       vol_dict[current_vol_name].volume.visible = false;
-      vol_dict[current_vol_name].volume.volumeRendering = false;
-      try {
-        renderer.remove(vol_dict[current_vol_name].volume);
-      }
-      catch (e) { console.log(e); }
+      // vol_dict[current_vol_name].volume.volumeRendering = false;
+      // try {
+      //   renderer.remove(vol_dict[current_vol_name].volume);
+      // }
+      // catch (e) { console.log(e); }
     }
   }
 
@@ -151,6 +151,37 @@ function show_volume(vol_name, level = null, rendering_mode = null) {
     else {
       console.log("Error during volume level selection");
     }
+  }
+}
+
+
+function hide_volume(vol_name = null){
+  if (vol_name){
+    if (!vol_dict.hasOwnProperty(vol_name)) return;
+
+    if (vol_dict.hasOwnProperty(vol_name)) {
+      if (vol_dict[vol_name].is_loaded) {
+        vol_dict[vol_name].volume.visible = false;
+        // vol_dict[current_vol_name].volume.volumeRendering = false;
+        // try {
+        //   renderer.remove(vol_dict[current_vol_name].volume);
+        // }
+        // catch (e) { console.log(e); }
+      }
+    }
+  }
+  else{
+    if (vol_dict.hasOwnProperty(current_vol_name)) {
+      if (vol_dict[current_vol_name].is_loaded) {
+        vol_dict[current_vol_name].volume.visible = false;
+        // vol_dict[current_vol_name].volume.volumeRendering = false;
+        // try {
+        //   renderer.remove(vol_dict[current_vol_name].volume);
+        // }
+        // catch (e) { console.log(e); }
+      }
+    }
+  
   }
 }
 
@@ -257,7 +288,7 @@ function set_level(vol_name, level = null, rendering_mode = null) {
   }
 }
 
-// initializes the mesh dicitionary
+// initializes the mesh dicitionary. you sholud not call this function manually
 function init_meshes() {
   for (var mesh_name in mesh_dict) {
     if (mesh_dict.hasOwnProperty(mesh_name)) {
@@ -271,7 +302,7 @@ function init_meshes() {
   }
 }
 
-// manipulates mesh visibility (Notice: some mesh can hide the others)
+// manipulates mesh visibility (Notice: some mesh can hide the others). you sholud not call this function manually
 function set_mesh_visibility(mesh_name, visibility) {
   if (!mesh_dict.hasOwnProperty(mesh_name)) return;
   if (!mesh_dict[mesh_name].is_loaded) {
