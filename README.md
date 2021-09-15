@@ -11,16 +11,17 @@ XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my eng
 * These representations can be simultaneously visualized with the XTK library. A simple API was created for predefined and animated visualization of fishes.
 
 #### volumes
-* Every fish may have multiple _volumes_ (**CT**, T1, T2, ... ) - a.k.a. modality/sequence - stored in several different spatial resolution. The higher the resolution the more appealing the visual appearance - in the cost of speed.
+* Every fish may have multiple **_volumes_** (**CT**, T1, T2, ... ) - a.k.a. modality/sequence - stored in several different spatial resolution. The higher the resolution the more appealing the visual appearance - in the cost of speed.
+* The resolution marked with a simple prefix in the filename with the "res##-" pattern, where "#" is a numeric character. *The higher the number, the lower the spatial resolution* - since these number equals to *int(voxel_size\*10)*.
 * Due to performance issues only one volume can be visualized at one time.
-* Each volume may have several visualization preset called *level*s. Different *levels*  defined to visualize different internal structures of the selected fish.
-* Level presets, and the default resolution are defined in the **settings.json** file for every fish.
+* Each volume may have several visualization preset called ***level***s. Different *levels*  defined to visualize different internal structures of the selected fish.
+* Level presets, and the default resolution are defined in the ***params.json*** file for every fish.
 * Volumes can be visualized in two different visualization modes: *volume* and *slice* mode. Volume mode enables the volume rendering while slice mode disables the volume rendering and shows only one slice of the volume at one time.
 * In *slice* mode there is possible to step along or start/stop/invert a looped animation between the slices along a given axis. 
 
 #### meshes
-* Every fish may have multiple _meshes_ (e.g surface, bladder, bone, etc.), every mesh are created to visaualize different segmentations on the selected fish.
-* Mesh parameters are defined in the **params.json** file for every fish.
+* Every fish may have multiple **_meshes_** (e.g surface, bladder, bone, etc.), every mesh are created to visualize different segmentations of the selected fish.
+* Mesh parameters are defined in the ***params.json*** file for every fish.
 
 ### Code structure
 * _js/_
@@ -37,8 +38,12 @@ XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my eng
         * mesh1.stl
         * mesh2. stl
         * ...
-        * volume1.nii.gz
-        * volume2.nii.gz
+        * res##-volume1.nii.gz
+        * ...
+        * res##-volume1.nii.gz
+        * res##-volume2.nii.gz
+        * ...
+        * res##-volume2.nii.gz
         * ...
         * **params.json**
 
