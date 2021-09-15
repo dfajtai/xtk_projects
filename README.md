@@ -2,7 +2,7 @@
 
 ## Fish visualizer
 
-XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my english knowledge.)
+XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my english knowledge, I hope this documentation will be sufficiently  understandable.)
 
 ### Logic
 * There are two volume representaton used  in this project:  
