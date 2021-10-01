@@ -304,7 +304,10 @@ function init_meshes() {
 
 // manipulates mesh visibility (Notice: some mesh can hide the others). you sholud not call this function manually
 function set_mesh_visibility(mesh_name, visibility) {
-  if (!mesh_dict.hasOwnProperty(mesh_name)) return;
+  if (!mesh_dict.hasOwnProperty(mesh_name)) {
+    console.log("failed to load mesh '"+ mesh_name+"'");
+    return;
+  }
   if (!mesh_dict[mesh_name].is_loaded) {
     renderer.add(mesh_dict[mesh_name].mesh);
     renderer.onShowtime = function () {
