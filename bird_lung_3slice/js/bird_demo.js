@@ -140,7 +140,7 @@ window.onload = function() {
     renderer_sliceZ.add(volume);
     renderer_sliceZ.render();
 
-    renderer_3d.camera.o[14] = -800;
+    renderer_3d.camera.o = [0,0,1,0,0,1,0,0,1,0,0,0,0,0,-800,1];
     renderer_sliceX.camera.o[14] = .6;
 
     gui = new dat.GUI();
@@ -173,7 +173,7 @@ window.onload = function() {
     var labelMapOpacityController = labelmapgui.add(volume.labelmap, 'opacity',
         0, 1);
     labelmapgui.open();
-
+    // volume.lowerThreshold = -1000;
 
     add_meshes_to_scene();  
 
