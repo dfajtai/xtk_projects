@@ -48,7 +48,7 @@ XTK based js library to visualize 3 dimensional,  fish images. (Sorry for my eng
         * **params.json**
 
 ### A more detailed description ("API documentation") 
-A more detailed description about this project, to prevent the well known case showed on the following image...
+A more detailed description about this project, to prevent the well known case shown on the following image...
 ![Only Gond knows](only_god_knows.jpeg) 
 #### Functions
 Short description of the main functions which are safe to call manually in runtime. **Functions that not appears in this table should not be used manually.**
